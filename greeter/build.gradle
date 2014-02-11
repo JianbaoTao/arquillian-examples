@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group='com.tao'
+version='1.0-SNAPSHOT'
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.9'
+}
+
+test {
+    //show stdout and stderr
+    testLogging.showStandardStreams = true
+    testLogging.events 'skipped', 'passed', 'failed'
+}
+
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.1.7'
+//    compile 'javax:javaee-api:7.0'
+//    compile 'com.sun.jersey:jersey-core:1.17.1'
+//    compile 'com.sun.jersey:jersey-client:1.17.1'
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'ch.qos.logback:logback-classic:1.0.13'
+    compile 'ch.qos.logback:logback-core:1.0.13'
+    testCompile 'junit:junit:4.11'
+    compile 'org.jboss.weld.se:weld-se:2.0.4.Final'
+    testCompile 'org.jboss.arquillian:arquillian-bom:1.1.1.Final'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.1.Final'
+    testCompile 'org.jboss.arquillian.container:arquillian-weld-se-embedded-1.1:1.0.0.CR7'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'org.jboss.arquillian.spock:arquillian-spock-container:1.0.0.Beta2'
+}
+
+
+
+
+
