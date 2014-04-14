@@ -23,8 +23,8 @@ build/
 
 # random stuff     #
 ######################
-/greeter/
 /jee/
 /one/
 /persistence/
 /two/
+obsolete/

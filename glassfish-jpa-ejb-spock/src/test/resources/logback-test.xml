@@ -36,8 +36,9 @@
         <appender-ref ref="CONSOLE" />
     </logger-->
 
-    <!--logger name="org.jboss.weld" level="ERROR"/>
-    <logger name="o.j.w.i.u" level="ERROR"/-->
+    <logger name="org.jboss.weld" level="ERROR"/>
+    <logger name="o.j.w.i.u" level="ERROR"/>
+    <logger name="o.h.v.i" level="ERROR"/>
 
   
     <root level="DEBUG">
