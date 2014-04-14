@@ -1,0 +1,43 @@
+apply plugin: 'war'
+
+group='com.tao'
+version='1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://repository.jboss.org/nexus/content/groups/public-jboss/"
+    }
+}
+
+dependencies {
+
+    providedCompile 'javax:javaee-api:6.0'
+
+    providedCompile 'org.slf4j:slf4j-api:1.6.1'
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.jboss.arquillian:arquillian-bom:1.1.1.Final'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.1.Final'
+    testRuntime 'org.jboss.as:jboss-as-arquillian-container-remote:7.1.1.Final'
+    testRuntime 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.4.Final'
+}
+
+tasks.withType( Test ) {
+    testLogging.showStandardStreams = true
+    testLogging.events 'passed', 'skipped', 'failed'
+
+    outputs.upToDateWhen { false }
+    maxParallelForks = project.hasProperty( 'fork' ) ? project.fork.toInteger() : 1
+}
+
+tasks.addRule("Pattern: test.<TestClassName>: Run single test.") { String taskName ->
+    if (taskName.startsWith("test.")) {
+        String pattern = taskName - 'test.'
+        task(taskName, type: Test ) {
+            include "**/*${pattern}*"
+        }
+    }
+}
+
