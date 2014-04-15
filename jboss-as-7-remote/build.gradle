@@ -7,7 +7,7 @@ version='1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven {
-        url "http://repository.jboss.org/nexus/content/groups/public-jboss/"
+        url "https://repository.jboss.org/nexus/content/groups/public-jboss/"
     }
 }
 
@@ -16,12 +16,13 @@ dependencies {
     providedCompile 'javax:javaee-api:6.0'
 
     providedCompile 'org.slf4j:slf4j-api:1.6.1'
+    testRuntime 'org.jboss.as:jboss-as-embedded:7.2.0.Final'
 
     testCompile 'junit:junit:4.11'
-    testCompile 'org.jboss.arquillian:arquillian-bom:1.1.1.Final'
-    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.1.Final'
-    testRuntime 'org.jboss.as:jboss-as-arquillian-container-remote:7.1.1.Final'
-    testRuntime 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.4.Final'
+    testCompile 'org.jboss.arquillian:arquillian-bom:1.1.4.Final'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.4.Final'
+    testRuntime 'org.jboss.as:jboss-as-arquillian-container-embedded:7.2.0.Final'
+//    testRuntime 'org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.4.Final'
 }
 
 tasks.withType( Test ) {
@@ -30,6 +31,8 @@ tasks.withType( Test ) {
 
     outputs.upToDateWhen { false }
     maxParallelForks = project.hasProperty( 'fork' ) ? project.fork.toInteger() : 1
+
+    systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
 }
 
 tasks.addRule("Pattern: test.<TestClassName>: Run single test.") { String taskName ->

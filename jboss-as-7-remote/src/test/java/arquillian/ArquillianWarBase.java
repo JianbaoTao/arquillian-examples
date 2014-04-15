@@ -15,8 +15,7 @@ public abstract class ArquillianWarBase {
         if( war == null ) {
             war = ShrinkWrap.create( WebArchive.class, "jboss-test.war" )
                     .addPackages( true, Filters.exclude( ".*Test.*" ),
-                            "learn" )
-                    .addClass( ArquillianWarBase.class )
+                            "learn", "org.jboss.shrinkwrap" )
                     .addAsWebInfResource( "beans-test.xml", "beans.xml" )
                     .addAsWebInfResource( "web-test.xml", "web.xml" );
             System.out.println( war.toString( true ) );
