@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Insert the current time formatted as "yyyyMMdd'T'HHmmss" under
+       the key "bySecond" into the logger context. This value will be
+       available to all subsequent configuration elements. -->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <!-- console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] [%level] %logger: %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- profile log appender -->
+    <!--<appender name="FILE-PROFILE" class="ch.qos.logback.core.FileAppender">-->
+        <!--<file>logs/profile-${bySecond}.txt</file>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{100} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash; debug log appender &ndash;&gt;-->
+    <!--<appender name="FILE-DEBUG" class="ch.qos.logback.core.FileAppender">-->
+        <!--<file>logs/log-${bySecond}.txt</file>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{100} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--logger name="chapters.configuration.Foo" level="INFO" additivity="true">
+        <appender-ref ref="CONSOLE" />
+    </logger-->
+
+    <!--logger name="org.jboss.weld" level="ERROR"/>
+    <logger name="o.j.w.i.u" level="ERROR"/-->
+
+  
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>
+

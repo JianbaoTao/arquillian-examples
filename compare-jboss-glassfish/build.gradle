@@ -1,0 +1,106 @@
+apply plugin: 'groovy'
+apply plugin: 'war'
+
+group='com.tao'
+version='1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    if( project.hasProperty( 'jboss' ) ) {
+        println 'hello, jboss'
+        maven { url "http://repository.jboss.org/nexus/content/groups/public-jboss/" }
+    }
+}
+
+void makeArquillianXml( String name ) {
+    String fromDir = 'src/test/resources/arquillian-xml'
+    String toFile = 'src/test/resources/arquillian.xml'
+    new File( toFile ).text = new File( "${fromDir}/arquillian-${name}.xml").text
+    println "Created ${toFile} from ${fromDir}/arquillian-${name}.xml"
+}
+
+dependencies {
+    if( project.hasProperty('jee6') ) {
+        println 'using java ee 6'
+        providedCompile 'javax:javaee-api:6.0'
+        if( project.hasProperty( 'jboss') ) {
+            if( project.hasProperty('remote') ) {
+                testRuntime 'org.wildfly:wildfly-arquillian-container-remote:8.1.0.CR1'
+            } else {
+                testRuntime 'org.wildfly:wildfly-embedded:8.1.0.CR1'
+                testRuntime 'org.wildfly:wildfly-arquillian-container-embedded:8.1.0.CR1'
+            }
+        } else {
+            testRuntime 'org.glassfish.main.extras:glassfish-embedded-all:4.0'
+            testRuntime 'org.glassfish.main.extras:glassfish-embedded-all:3.1.2.2'
+        }
+    } else {
+        println 'using java ee 7'
+        providedCompile 'javax:javaee-api:7.0'
+        if( project.hasProperty( 'jboss') ) {
+            println 'using jboss'
+            if( project.hasProperty('remote') ) {
+                println 'using wildfly remote'
+                testRuntime 'org.wildfly:wildfly-arquillian-container-remote:8.0.0.Final'
+            } else {
+                println 'using wildfly embedded'
+                makeArquillianXml( 'wildfly-embedded' )
+                testRuntime 'org.wildfly:wildfly-embedded:8.0.0.Final'
+                testRuntime 'org.wildfly:wildfly-arquillian-container-embedded:8.0.0.Final'
+            }
+        } else {
+            println 'using glassfish'
+            if( project.hasProperty('remote') ) {
+                println 'using glassfish remote'
+                testRuntime 'org.jboss.arquillian.container:arquillian-glassfish-remote-3.1:1.0.0.CR4'
+            } else {
+                println 'using glassfish embedded'
+                makeArquillianXml( 'glassfish-embedded' )
+                testRuntime 'org.glassfish.main.extras:glassfish-embedded-all:4.0'
+                testRuntime 'org.jboss.arquillian.container:arquillian-glassfish-embedded-3.1:1.0.0.CR4'
+            }
+        }
+    }
+
+    testCompile 'org.codehaus.groovy:groovy-all:2.2.1'
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.jboss.arquillian:arquillian-bom:1.1.4.Final'
+    testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.4.Final'
+
+    providedCompile 'ch.qos.logback:logback-classic:1.0.13'
+    providedCompile 'ch.qos.logback:logback-core:1.0.13'
+
+//    testRuntime 'org.hsqldb:hsqldb:2.3.0'
+//
+//    compile 'com.sun.jersey:jersey-core:1.17.1'
+//    compile 'com.sun.jersey:jersey-client:1.17.1'
+//    testCompile 'com.sun.jersey:jersey-bundle:1.17.1'
+    
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+
+tasks.withType( Test ) {
+    testLogging.showStandardStreams = true
+    testLogging.events 'passed', 'skipped', 'failed'
+
+    outputs.upToDateWhen { false }
+    maxParallelForks = project.hasProperty( 'fork' ) ? project.fork.toInteger() : 1
+    if( project.hasProperty('jboss') ) {
+        println 'Set log manager for jboss'
+        systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
+    }
+}
+
+tasks.addRule("Pattern: test.<TestClassName>: Run single test.") { String taskName ->
+    if (taskName.startsWith("test.")) {
+        String pattern = taskName - 'test.'
+        task(taskName, type: Test ) {
+            include "**/*${pattern}*"
+        }
+    }
+}
+
