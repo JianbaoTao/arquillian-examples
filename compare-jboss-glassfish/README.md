@@ -6,9 +6,9 @@ testing.
 ## Status Tracker Matrix
 
            |GF 4 (JEE 7) | WF 8 (JEE 7) | GF 3 (JEE 6) | JBoss EAP 6.1 (JEE 6) |
---------------------------------------------------------------------
-Embedded   |PASS         | FAIL         | TBD          | TBD
-Remote     |TBD          | TBD          | TBD          | TBD
+-----------|-------------|--------------|--------------|-----------------------|
+Embedded   |PASS         | FAIL         | TBD          | TBD                   |
+Remote     |TBD          | TBD          | TBD          | TBD                   |
 
 ## Run the tests
 
