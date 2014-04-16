@@ -3,12 +3,19 @@ This repository `compare-jboss-glassfish` is intended to investigate the differe
 in terms of robustness, speed, and complexity of project configurations when they are used together with Arquillian for
 testing.
 
-## Status Tracker Matrix
+##Status Tracker Matrix
 
            |GF 4 (JEE 7) | WF 8 (JEE 7) | GF 3 (JEE 6) | JBoss EAP 6.1 (JEE 6) |
 -----------|-------------|--------------|--------------|-----------------------|
 Embedded   |PASS         | FAIL         | TBD          | TBD                   |
 Remote     |TBD          | TBD          | TBD          | TBD                   |
+
+###Notes
+  1. According to references below  
+http://stackoverflow.com/questions/20895332/arquillian-wildfly-embedded  
+http://blog.progs.be/585/wildfly-integration-arquillian-maven  
+Embedded WildFly is problematic to be used with Arquillian for testing. Therefore, the investigation for using embedded
+WildFly + Arquillian is suspended indefinitely.
 
 ## Run the tests
 

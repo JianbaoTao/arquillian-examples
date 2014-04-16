@@ -44,6 +44,7 @@ dependencies {
                 println 'using wildfly remote'
                 testRuntime 'org.wildfly:wildfly-arquillian-container-remote:8.0.0.Final'
             } else {
+                // not working.
                 println 'using wildfly embedded'
                 makeArquillianXml( 'wildfly-embedded' )
                 testRuntime 'org.wildfly:wildfly-embedded:8.0.0.Final'
