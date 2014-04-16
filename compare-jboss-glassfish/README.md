@@ -10,7 +10,7 @@ testing.
 Embedded   |PASS         | FAIL         | TBD          | TBD                   |
 Remote     |TBD          | TBD          | TBD          | TBD                   |
 
-###Notes
+**Notes**
   1. According to references below  
 http://stackoverflow.com/questions/20895332/arquillian-wildfly-embedded  
 http://blog.progs.be/585/wildfly-integration-arquillian-maven  
